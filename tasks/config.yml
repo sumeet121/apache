@@ -1,0 +1,17 @@
+---
+- name: add index.html file to /var/www/html
+  template:
+    src: templates/index.j2
+    dest: /var/www/html/index.html
+
+- name: Allowing HTTP traffic in firewall
+  firewalld:
+    service: http
+    permanent: yes
+    state: enabled
+
+- name: reload the firewall service
+  service:
+    name: firewalld
+    state: reloaded
+...

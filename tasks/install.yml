@@ -1,0 +1,6 @@
+---
+- name: Apache Web Server Configuration Playbook
+  yum:
+     name: httpd
+     state: latest
+...

@@ -1,0 +1,38 @@
+---
+- name: Apache Web Server Configuration Playbook
+  hosts: node1
+  become: yes
+  tasks:
+    - name: Install latest Apache on node01
+      yum:
+        name: httpd
+        state: latest
+
+    - name: Start/Enable Apache web service
+      service:
+        name: httpd
+        state: started
+        enabled: yes
+
+    - name: add index.html file to /var/www/html
+      copy:
+        content: "This is test web page"
+        dest: /var/www/html/index.html
+
+    - name: restarting apache service
+      service:
+        name: httpd
+        state: restarted
+        enabled: yes
+
+    - name: Allowing HTTP traffic in firewall 
+      firewalld:
+        service: http
+        permanent: yes
+        state: enabled
+
+    - name: reload the firewall service
+      service:
+        name: firewalld
+        state: reloaded
+...
